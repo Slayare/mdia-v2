@@ -15,6 +15,16 @@ class CannedModel:
         return self.reply
 
 
+class ScriptedModel:
+    """Fake language model that returns the given replies in order, one per call."""
+
+    def __init__(self, *replies: str) -> None:
+        self._replies = iter(replies)
+
+    def generate(self, prompt: str, schema: dict[str, Any]) -> str:
+        return next(self._replies)
+
+
 class SteppingClock:
     """Fake clock that returns the given times in order, one per call."""
 

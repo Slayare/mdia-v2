@@ -10,26 +10,30 @@ from mdia.contracts.run import RunContext
 from mdia.contracts.trajectory import TurnRecord
 from mdia.domain.agents.identity import Ontolette
 from mdia.domain.events import ActionResolved
-from mdia.domain.world import Gather, WorldState
+from mdia.domain.world import WorldState
 from mdia.models.ports import LanguageModel
 from mdia.simulation.perception import observe
 from mdia.simulation.rules import resolve
-
-
-class Decider(Protocol):
-    def decide(self, agent_id: str) -> Gather: ...
 
 
 class Journal(Protocol):
     def append(self, event: ActionResolved) -> None: ...
 
 
-def run(state: WorldState, agent_id: str, decider: Decider, journal: Journal, ticks: int) -> WorldState:
+def run(
+    state: WorldState,
+    identity: Ontolette,
+    model: LanguageModel,
+    journal: Journal,
+    ticks: int,
+    context: RunContext,
+    clock: Callable[[], float] = time.perf_counter,
+) -> tuple[WorldState, list[TurnRecord]]:
+    records = []
     for tick in range(ticks):
-        action = decider.decide(agent_id)
-        state, result = resolve(state, action)
-        journal.append(ActionResolved(tick, action, result))
-    return state
+        state, record = take_turn(state, identity, model, journal, tick, context, clock)
+        records.append(record)
+    return state, records
 
 
 def take_turn(

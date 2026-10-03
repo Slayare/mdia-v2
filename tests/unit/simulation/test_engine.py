@@ -9,36 +9,32 @@ from mdia.domain.world import ActionResult, Gather, WorldState
 from mdia.persistence.journal import InMemoryJournal
 from mdia.simulation.engine import run, take_turn
 
-from fakes import CannedModel, SteppingClock
+from fakes import CannedModel, ScriptedModel, SteppingClock
 
 Luma = Ontolette(id="luma", name="Luma", traits=["curious"], goals=["find food"], beliefs=[])
 RUN = RunContext(run_id="run-1", seed=7, model_id="gpt-oss:20b", config_version="test")
 
 
-# TODO: move into a shared test fixtures module once a second test needs it (likely roadmap step 4).
-class ScriptedDecider:
-    """Fake decider that proposes a fixed sequence of actions, one per tick."""
-
-    def __init__(self, actions: list[Gather]) -> None:
-        self._actions = iter(actions)
-
-    def decide(self, agent_id: str) -> Gather:
-        return next(self._actions)
+def _gather(amount: int) -> str:
+    return f'{{"action": "gather", "node_id": "bush", "amount": {amount}}}'
 
 
-def test_run_resolves_each_proposed_action_and_journals_it_by_tick():
+def test_run_takes_a_turn_per_tick_each_seeing_the_world_the_last_one_left():
     state = WorldState(stocks={"bush": 5}, inventories={"luma": 0})
-    first, too_much, rest = Gather("luma", "bush", 3), Gather("luma", "bush", 3), Gather("luma", "bush", 2)
+    model = ScriptedModel(_gather(3), _gather(3), _gather(2))
     journal = InMemoryJournal()
 
-    final = run(state, "luma", ScriptedDecider([first, too_much, rest]), journal, ticks=3)
+    final, records = run(state, Luma, model, journal, ticks=3, context=RUN)
 
     assert final == WorldState(stocks={"bush": 0}, inventories={"luma": 5})
     assert journal.events() == (
-        ActionResolved(0, first, ActionResult(accepted=True)),
-        ActionResolved(1, too_much, ActionResult(accepted=False, reason="amount outside available stock")),
-        ActionResolved(2, rest, ActionResult(accepted=True)),
+        ActionResolved(0, Gather("luma", "bush", 3), ActionResult(accepted=True)),
+        ActionResolved(
+            1, Gather("luma", "bush", 3), ActionResult(accepted=False, reason="amount outside available stock")
+        ),
+        ActionResolved(2, Gather("luma", "bush", 2), ActionResult(accepted=True)),
     )
+    assert [(r.tick, r.observation.inventory) for r in records] == [(0, 0), (1, 3), (2, 3)]
 
 
 def test_turn_resolves_a_usable_decision_journals_it_and_records_what_luma_experienced():

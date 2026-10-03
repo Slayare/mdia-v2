@@ -1,0 +1,35 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+build/
+dist/
+
+# Virtual environments
+.venv/
+
+# Test / tooling caches
+.pytest_cache/
+.hypothesis/
+.ruff_cache/
+.mypy_cache/
+.coverage
+htmlcov/
+
+# Local environment
+.env
+.env.*
+
+# Local runtime data (simulation runs, databases)
+*.db
+*.sqlite
+*.sqlite3
+runs/
+
+# OS / editor
+.DS_Store
+.vscode/*
+!.vscode/settings.json
+
+# Claude Code local settings
+.claude/settings.local.json

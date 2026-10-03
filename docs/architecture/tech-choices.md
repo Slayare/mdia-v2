@@ -9,7 +9,8 @@
 | Project management | `uv`, `pyproject.toml`, `src/` layout and committed lockfile |
 | Architecture | Modular monolith with ports and adapters |
 | Boundary contracts | Pydantic validation and JSON schemas |
-| LLM integration | Model port; optional Pydantic AI behind that boundary |
+| LLM integration | In use: `LanguageModel` port with a thin adapter to Ollama's native `/api/generate`, using structured output (`format` = `AgentAction` JSON schema). Pydantic AI remains optional behind the port |
+| HTTP client | In use: `httpx` (injected client, so tests use a mock transport) |
 | Local serving/model | Existing Ollama and `gpt-oss:20b` setup |
 | Persistence | SQLite, SQLAlchemy and Alembic |
 | Simulation scheduling | Evaluate custom scheduler, Mesa and SimPy |

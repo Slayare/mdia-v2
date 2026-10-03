@@ -54,6 +54,8 @@ The prospective target is “portray a person given their identity, memories, be
 
 ## Recommended build order
 
+> The current working order, with status per step, is in [../plans/roadmap.md](../plans/roadmap.md). The list below is the original coarse proposal.
+
 1. **Simulation design pass:** Compare time/scheduling options, cognition activation and representation of individual/social state.
 2. **Foundation:** Package layout, configuration, typed contracts, ports and composition root.
 3. **Vertical slice:** One Ontolette, one deterministic toy world, validated model action, resolved consequence, saved event and memory.

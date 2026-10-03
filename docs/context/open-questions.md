@@ -3,14 +3,16 @@
 **Status:** Open. Update or remove items as they are decided (record decisions as ADRs in [../architecture/decisions/](../architecture/decisions/)).
 **Date:** 2 October 2026
 
-Related: [future-state.md](future-state.md) (time model and fidelity ladder proposals)
+Related: [future-state.md](future-state.md) (time model and fidelity ladder proposals) · [../plans/roadmap.md](../plans/roadmap.md) (ordered build steps)
 
 - **Time:** Fixed updates versus discrete events versus a hybrid; custom scheduler versus Mesa versus SimPy.
+- **Turn order:** Deterministic ordering and random streams for multiple Ontolettes. Must be decided by roadmap step 6 (second Ontolette).
 - **Cognitive scheduling:** Activation rules, per-agent fairness, inference budgets, batching and fidelity bias.
+- **Relationship state:** Derive relationships from memory, or hold them as explicit state? Explicit records may conflict with emergence. Start derived (roadmap step 10) and promote only if needed.
 - **Representation:** Data-oriented agents, ECS-style components and explicit shared social structures.
 - **Demography:** Founder assumptions, reproduction, kinship, mortality and population limits. A three-founder scenario needs explicit modelling assumptions rather than silent defaults.
 - **Scale targets:** Cumulative births, peak living population, simulated duration and acceptable wall-clock runtime.
 - **Reproducibility:** Stable event ordering, random streams, versioning and the boundary between exact replay and new experimental runs.
 - **Emergence:** Which low-level mechanisms permit cooperation, conflict and transmission without scripting institutions?
 
-**Next concrete milestone:** Select and document the minimal simulation/scheduling approach, then build the smallest inspectable loop from observation to cognition, world consequence, event and memory.
+**Next concrete milestone:** Roadmap step 1: a tiny deterministic world with invariants and an in-memory event journal, driven by a scripted decider. Then build the smallest inspectable loop from observation to cognition, world consequence, event and memory (steps 2-5). The scheduling approach must be selected and documented before step 6.

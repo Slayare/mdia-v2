@@ -9,6 +9,9 @@ dependencies = [
     "pydantic>=2",
 ]
 
+[project.scripts]
+mdia = "mdia.runtime.cli:main"
+
 [dependency-groups]
 dev = [
     "pytest>=8",

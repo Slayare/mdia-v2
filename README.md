@@ -26,3 +26,19 @@ Tests that call the local model are skipped by default. To run them (Ollama must
 ```sh
 MDIA_OLLAMA_TESTS=1 uv run pytest tests/integration
 ```
+
+## Running a simulation
+
+Run the tiny world (one Ontolette, Luma, beside a bush and a tree) against the local model and watch each turn as it completes (Ollama must be running):
+
+```sh
+uv run mdia --ticks 5
+```
+
+Each line shows the tick, the agent, what it saw, what it proposed, the world's verdict and how long the model took:
+
+```text
+tick 2 | luma | carrying 5; bush 0, tree 2 | gather 2 from tree | accepted | 7.1s
+```
+
+`uv run mdia --help` lists the options (model, Ollama URL, seed).

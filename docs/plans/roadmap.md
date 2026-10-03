@@ -11,7 +11,7 @@ When a step lands, update its status here and check the docs for anything the st
 | 2 | Ontolette identity as a small data object (id, name, traits, goals, beliefs) | done |
 | 3 | Decision port and Ollama structured-output adapter, validated against `AgentAction` | done |
 | 4 | Turn loop emitting a turn record | done |
-| 4b | Runnable CLI in `runtime/`: tiny world, one Ontolette, N ticks against Ollama, printing each turn record | todo |
+| 4b | Runnable CLI in `runtime/`: tiny world, one Ontolette, N ticks against Ollama, printing each turn record | done |
 | 5 | Run analytics report, derived from the journal and turn records (see [Analytics](#analytics)) | todo |
 | 6 | In-memory episodic memory (recency and keyword retrieval) | todo |
 | 7 | Second Ontolette and deterministic turn order | todo |

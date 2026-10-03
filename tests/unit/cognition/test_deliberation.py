@@ -1,22 +1,10 @@
-from typing import Any
-
 import pytest
 
 from mdia.cognition.deliberation import Decision, deliberate
 from mdia.contracts.actions import AgentAction
 from mdia.domain.world import Gather
 
-
-class CannedModel:
-    """Fake language model that returns a fixed reply and remembers what it was asked."""
-
-    def __init__(self, reply: str) -> None:
-        self.reply = reply
-        self.schema: dict[str, Any] | None = None
-
-    def generate(self, prompt: str, schema: dict[str, Any]) -> str:
-        self.schema = schema
-        return self.reply
+from fakes import CannedModel
 
 
 def test_valid_model_output_becomes_a_decision_with_an_intent():

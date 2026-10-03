@@ -3,12 +3,14 @@
 from pydantic import BaseModel, ConfigDict
 
 from mdia.contracts.observations import Observation
+from mdia.contracts.run import RunContext
 from mdia.domain.world import ActionResult, Gather
 
 
 class TurnRecord(BaseModel):
     model_config = ConfigDict(frozen=True)
 
+    run: RunContext
     tick: int
     agent_id: str
     observation: Observation

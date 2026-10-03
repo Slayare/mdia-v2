@@ -4,6 +4,7 @@ from typing import Protocol
 
 from mdia.cognition.context import build_prompt
 from mdia.cognition.deliberation import deliberate
+from mdia.contracts.run import RunContext
 from mdia.contracts.trajectory import TurnRecord
 from mdia.domain.agents.identity import Ontolette
 from mdia.domain.events import ActionResolved
@@ -30,7 +31,12 @@ def run(state: WorldState, agent_id: str, decider: Decider, journal: Journal, ti
 
 
 def take_turn(
-    state: WorldState, identity: Ontolette, model: LanguageModel, journal: Journal, tick: int
+    state: WorldState,
+    identity: Ontolette,
+    model: LanguageModel,
+    journal: Journal,
+    tick: int,
+    run: RunContext,
 ) -> tuple[WorldState, TurnRecord]:
     observation = observe(state, identity.id)
     prompt = build_prompt(identity, observation)
@@ -41,6 +47,7 @@ def take_turn(
         state, result = resolve(state, decision.intent)
         journal.append(ActionResolved(tick, decision.intent, result))
     record = TurnRecord(
+        run=run,
         tick=tick,
         agent_id=identity.id,
         observation=observation,

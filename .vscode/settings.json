@@ -6,6 +6,7 @@
         "behaviours",
         "evals",
         "inspectable",
+        "journalled",
         "MDIA",
         "Normalise",
         "Ollama",

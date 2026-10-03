@@ -16,3 +16,11 @@ def test_model_output_with_fields_outside_the_contract_is_rejected():
         AgentAction.model_validate_json(
             '{"action": "gather", "node_id": "bush", "amount": 3, "agent_id": "someone_else"}'
         )
+
+
+@pytest.mark.parametrize("amount", [0, -1])
+def test_contract_accepts_amounts_the_world_will_reject(amount):
+    """Value checks belong to world rules, so bad decisions get journalled (ADR 0001)."""
+    proposed = AgentAction.model_validate_json(f'{{"action": "gather", "node_id": "bush", "amount": {amount}}}')
+
+    assert proposed.amount == amount

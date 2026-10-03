@@ -1,5 +1,7 @@
 """Simulation engine: drives agents' proposed actions through world rules."""
 
+import time
+from collections.abc import Callable
 from typing import Protocol
 
 from mdia.cognition.context import build_prompt
@@ -37,10 +39,11 @@ def take_turn(
     journal: Journal,
     tick: int,
     run: RunContext,
+    clock: Callable[[], float] = time.perf_counter,
 ) -> tuple[WorldState, TurnRecord]:
     observation = observe(state, identity.id)
     prompt = build_prompt(identity, observation)
-    decision = deliberate(model, identity.id, prompt)
+    decision = deliberate(model, identity.id, prompt, clock)
     result = None
     # Fallback: with no usable intent nothing happens in the world, so nothing is journalled.
     if decision.intent is not None:
@@ -53,6 +56,7 @@ def take_turn(
         observation=observation,
         prompt=prompt,
         raw_output=decision.raw_output,
+        latency_s=decision.latency_s,
         intent=decision.intent,
         result=result,
         error=decision.error,

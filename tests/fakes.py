@@ -13,3 +13,13 @@ class CannedModel:
     def generate(self, prompt: str, schema: dict[str, Any]) -> str:
         self.schema = schema
         return self.reply
+
+
+class SteppingClock:
+    """Fake clock that returns the given times in order, one per call."""
+
+    def __init__(self, *times: float) -> None:
+        self._times = iter(times)
+
+    def __call__(self) -> float:
+        return next(self._times)

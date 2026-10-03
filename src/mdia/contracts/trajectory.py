@@ -16,6 +16,8 @@ class TurnRecord(BaseModel):
     observation: Observation
     prompt: str
     raw_output: str
+    latency_s: float
+    """Wall-clock seconds the model took to reply; unrelated to simulated time."""
     intent: Gather | None
     """None when the model gave no usable action (the fallback); `error` then says why."""
     result: ActionResult | None

@@ -1,10 +1,10 @@
 import pytest
 
-from mdia.cognition.deliberation import Decision, deliberate
+from mdia.cognition.deliberation import deliberate
 from mdia.contracts.actions import AgentAction
 from mdia.domain.world import Gather
 
-from fakes import CannedModel
+from fakes import CannedModel, SteppingClock
 
 
 def test_valid_model_output_becomes_a_decision_with_an_intent():
@@ -12,7 +12,7 @@ def test_valid_model_output_becomes_a_decision_with_an_intent():
 
     decision = deliberate(CannedModel(raw), "luma", "You are Luma.")
 
-    assert decision == Decision(intent=Gather("luma", "bush", 3), raw_output=raw)
+    assert (decision.intent, decision.raw_output, decision.error) == (Gather("luma", "bush", 3), raw, None)
 
 
 @pytest.mark.parametrize(
@@ -37,3 +37,11 @@ def test_model_is_given_the_action_contract_schema():
     deliberate(model, "luma", "You are Luma.")
 
     assert model.schema == AgentAction.model_json_schema()
+
+
+def test_decision_records_how_long_the_model_took():
+    model = CannedModel('{"action": "gather", "node_id": "bush", "amount": 3}')
+
+    decision = deliberate(model, "luma", "You are Luma.", clock=SteppingClock(10.0, 12.5))
+
+    assert decision.latency_s == 2.5

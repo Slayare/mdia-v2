@@ -10,6 +10,7 @@
         "httpx",
         "inspectable",
         "journalled",
+        "luma",
         "MDIA",
         "mypy",
         "Normalise",

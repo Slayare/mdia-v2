@@ -21,3 +21,12 @@ def test_gather_outside_available_stock_is_rejected_and_changes_nothing(amount):
 
     assert not result.accepted
     assert new_state == state
+
+
+def test_dead_agent_cannot_act():
+    state = WorldState(stocks={"bush": 5}, inventories={"ada": 0}, dead=frozenset({"ada"}))
+
+    new_state, result = resolve(state, Gather(agent_id="ada", node_id="bush", amount=3))
+
+    assert not result.accepted
+    assert new_state == state

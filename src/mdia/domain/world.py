@@ -10,6 +10,8 @@ class WorldState:
     """Remaining amount at each resource node, keyed by node id."""
     inventories: Mapping[str, int]
     """Amount each agent carries, keyed by agent id."""
+    dead: frozenset[str] = frozenset()
+    """Ids of agents who have died."""
 
 
 @dataclass(frozen=True)

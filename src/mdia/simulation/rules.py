@@ -4,6 +4,9 @@ from mdia.domain.world import ActionResult, Gather, WorldState
 
 
 def resolve(state: WorldState, action: Gather) -> tuple[WorldState, ActionResult]:
+    if action.agent_id in state.dead:
+        return state, ActionResult(accepted=False, reason="agent is dead")
+
     available = state.stocks[action.node_id]
     if not 0 < action.amount <= available:
         return state, ActionResult(accepted=False, reason="amount outside available stock")

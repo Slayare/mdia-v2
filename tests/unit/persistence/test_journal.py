@@ -4,9 +4,9 @@ from mdia.persistence.journal import InMemoryJournal
 
 
 def test_journal_returns_events_in_append_order():
-    accepted = ActionResolved(0, Gather("ada", "bush", 3), ActionResult(accepted=True))
+    accepted = ActionResolved(0, Gather("luma", "bush", 3), ActionResult(accepted=True))
     rejected = ActionResolved(
-        1, Gather("ada", "bush", 9), ActionResult(accepted=False, reason="amount outside available stock")
+        1, Gather("luma", "bush", 9), ActionResult(accepted=False, reason="amount outside available stock")
     )
     journal = InMemoryJournal()
 

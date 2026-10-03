@@ -8,18 +8,18 @@ def _on_one_line(text: str, *parts: str) -> bool:
 
 
 def test_prompt_carries_the_identity_and_everything_observed():
-    ada = Ontolette(
-        id="ada",
-        name="Ada",
+    luma = Ontolette(
+        id="luma",
+        name="Luma",
         traits=["curious", "cautious"],
         goals=["find food"],
         beliefs=["the tree is barren"],
     )
     observation = Observation(inventory=3, stocks={"bush": 5, "tree": 2})
 
-    prompt = build_prompt(ada, observation)
+    prompt = build_prompt(luma, observation)
 
-    for detail in ["Ada", "curious", "cautious", "find food", "the tree is barren"]:
+    for detail in ["Luma", "curious", "cautious", "find food", "the tree is barren"]:
         assert detail in prompt
     assert _on_one_line(prompt, "carrying", "3")
     assert _on_one_line(prompt, "bush", "5")

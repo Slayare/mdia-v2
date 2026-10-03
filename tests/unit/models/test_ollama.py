@@ -17,13 +17,13 @@ def test_generate_sends_prompt_and_schema_and_returns_the_response_text():
 
     client = httpx.Client(base_url="http://ollama.test", transport=httpx.MockTransport(handler))
 
-    reply = OllamaModel(client, "gpt-oss:20b").generate("You are Ada.", SCHEMA)
+    reply = OllamaModel(client, "gpt-oss:20b").generate("You are Luma.", SCHEMA)
 
     assert reply == '{"action": "gather"}'
     assert requests[0].url.path == "/api/generate"
     assert json.loads(requests[0].content) == {
         "model": "gpt-oss:20b",
-        "prompt": "You are Ada.",
+        "prompt": "You are Luma.",
         "format": SCHEMA,
         "stream": False,
     }
@@ -36,4 +36,4 @@ def test_server_errors_are_raised_rather_than_returned_as_text():
     client = httpx.Client(base_url="http://ollama.test", transport=httpx.MockTransport(handler))
 
     with pytest.raises(httpx.HTTPStatusError):
-        OllamaModel(client, "gpt-oss:20b").generate("You are Ada.", SCHEMA)
+        OllamaModel(client, "gpt-oss:20b").generate("You are Luma.", SCHEMA)

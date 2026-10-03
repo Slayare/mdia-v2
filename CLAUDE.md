@@ -16,6 +16,7 @@ Memory-Driven Identity Agent: a closed-world simulation of persistent simulated 
 
 ## Read on demand
 
+- Roadmap (ordered build steps and status; update the status when a step lands): docs/plans/roadmap.md
 - Architecture (subsystems, cognition workflow, state, memory, persistence): docs/architecture/overview.md
 - Provisional tech stack and reference links: docs/architecture/tech-choices.md
 - Proposed repo layout and dependency rule: docs/architecture/repo-structure.md

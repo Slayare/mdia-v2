@@ -7,5 +7,6 @@ from mdia.domain.world import ActionResult, Gather
 
 @dataclass(frozen=True)
 class ActionResolved:
+    tick: int
     action: Gather
     result: ActionResult

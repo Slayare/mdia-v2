@@ -7,7 +7,7 @@ Update the status column as each step lands. Each step is one commit-sized unit 
 
 | # | Step | Status |
 |---|---|---|
-| 1 | Tiny deterministic world, invariants and in-memory event journal (scripted fake decider) | todo |
+| 1 | Tiny deterministic world, invariants and in-memory event journal (scripted fake decider) | done |
 | 2 | Ontolette identity as a small data object (id, name, traits, goals, beliefs) | todo |
 | 3 | Decision port and Ollama structured-output adapter, validated against `AgentAction` | todo |
 | 4 | Turn loop emitting a turn record | todo |

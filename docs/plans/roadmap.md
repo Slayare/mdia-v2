@@ -10,7 +10,7 @@ When a step lands, update its status here and check the docs for anything the st
 | 1 | Tiny deterministic world, invariants and in-memory event journal (scripted fake decider) | done |
 | 2 | Ontolette identity as a small data object (id, name, traits, goals, beliefs) | done |
 | 3 | Decision port and Ollama structured-output adapter, validated against `AgentAction` | done |
-| 4 | Turn loop emitting a turn record | todo |
+| 4 | Turn loop emitting a turn record | done |
 | 4b | Runnable CLI in `runtime/`: tiny world, one Ontolette, N ticks against Ollama, printing each turn record | todo |
 | 5 | Run analytics report, derived from the journal and turn records (see [Analytics](#analytics)) | todo |
 | 6 | In-memory episodic memory (recency and keyword retrieval) | todo |
@@ -48,6 +48,13 @@ Fields the trajectory record needs beyond agent, observation, retrieved memories
 - inference latency (wall-clock, kept apart from simulated time)
 - identity version, config version
 
+Implemented in step 4 as `TurnRecord` ([contracts/trajectory.py](../../src/mdia/contracts/trajectory.py)), with run id, seed, model id and config version grouped in `RunContext`. Differences from the list above:
+
+- **Retrieved memories** arrive with memory (step 6).
+- **Fallback used** is expressed as `intent=None` plus `error`, since "no action" is the only fallback. Add an explicit field when a second fallback exists.
+- **Prompt hash** is computed from the stored full prompt (SHA-256 of UTF-8), so the two cannot disagree. Training data needs the full text anyway.
+- **Model version** is the model id only (e.g. `gpt-oss:20b`). Add the served model digest when replay (step 10) needs it.
+
 `reward` is deliberately omitted. It does not fit emergence over scripting. Step 14 curates and filters trajectories for supervised fine-tuning; add a reward only if preference or RL methods are adopted.
 
 ## Analytics
@@ -75,3 +82,4 @@ Sentiment or emotional tagging of memories (from the earlier MDIA analysis) is a
 - **Lifecycle** (step 13) is the route to the primary goal of generations; do not let it slip behind training.
 - **Replay and resume** need explicit tests in step 10, not just a working database.
 - **QLoRA feasibility** must be benchmarked on the actual hardware before step 14 is committed to.
+- **No way to do nothing.** Gather is the only action, so in a real run (step 4) the model asked to gather 0 from an empty bush to pass a turn. The world rejects and journals it, which inflates "rejected actions" in analytics. Decide whether waiting is a world action before analytics (step 5) reports on rejections.

@@ -28,11 +28,13 @@ def run(
     ticks: int,
     context: RunContext,
     clock: Callable[[], float] = time.perf_counter,
+    on_turn: Callable[[TurnRecord], None] = lambda record: None,
 ) -> tuple[WorldState, list[TurnRecord]]:
     records = []
     for tick in range(ticks):
         state, record = take_turn(state, identity, model, journal, tick, context, clock)
         records.append(record)
+        on_turn(record)
     return state, records
 
 

@@ -37,6 +37,25 @@ def test_run_takes_a_turn_per_tick_each_seeing_the_world_the_last_one_left():
     assert [(r.tick, r.observation.inventory) for r in records] == [(0, 0), (1, 3), (2, 3)]
 
 
+def test_run_reports_each_turn_before_asking_the_model_about_the_next():
+    log: list[str] = []
+    scripted = ScriptedModel(_gather(1), _gather(1))
+
+    class LoggingModel:
+        def generate(self, prompt, schema):
+            log.append("model asked")
+            return scripted.generate(prompt, schema)
+
+    state = WorldState(stocks={"bush": 5}, inventories={"luma": 0})
+
+    def report(record):
+        log.append(f"tick {record.tick} reported")
+
+    run(state, Luma, LoggingModel(), InMemoryJournal(), ticks=2, context=RUN, on_turn=report)
+
+    assert log == ["model asked", "tick 0 reported", "model asked", "tick 1 reported"]
+
+
 def test_turn_resolves_a_usable_decision_journals_it_and_records_what_luma_experienced():
     state = WorldState(stocks={"bush": 5}, inventories={"luma": 0})
     raw = '{"action": "gather", "node_id": "bush", "amount": 3}'

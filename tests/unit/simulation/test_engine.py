@@ -1,3 +1,5 @@
+import hashlib
+
 from mdia.cognition.context import build_prompt
 from mdia.contracts.observations import Observation
 from mdia.contracts.run import RunContext
@@ -52,12 +54,15 @@ def test_turn_resolves_a_usable_decision_journals_it_and_records_what_luma_exper
     assert new_state == WorldState(stocks={"bush": 2}, inventories={"luma": 3})
     assert journal.events() == (ActionResolved(4, gather, accepted),)
     observation = Observation(inventory=0, stocks={"bush": 5})
+    prompt = build_prompt(Luma, observation)
     assert record.model_dump() == {
         "run": RUN.model_dump(),
         "tick": 4,
         "agent_id": "luma",
+        "identity_version": 1,
         "observation": observation.model_dump(),
-        "prompt": build_prompt(Luma, observation),
+        "prompt": prompt,
+        "prompt_hash": hashlib.sha256(prompt.encode("utf-8")).hexdigest(),
         "raw_output": raw,
         "latency_s": 2.5,
         "intent": {"agent_id": "luma", "node_id": "bush", "amount": 3},

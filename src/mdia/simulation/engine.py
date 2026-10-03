@@ -53,6 +53,7 @@ def take_turn(
         run=run,
         tick=tick,
         agent_id=identity.id,
+        identity_version=identity.version,
         observation=observation,
         prompt=prompt,
         raw_output=decision.raw_output,

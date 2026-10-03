@@ -3,7 +3,7 @@
 **Status:** Proposed working order. Refines the build order in [../context/future-state.md](../context/future-state.md). Explicit decisions in [../context/vision.md](../context/vision.md) take precedence.
 **Date:** 3 October 2026
 
-Update the status column as each step lands. Each step is one commit-sized unit with its test (see [../ways-of-working/incremental-commits.md](../ways-of-working/incremental-commits.md)); a step may split into several commits.
+When a step lands, update its status here and check the docs for anything the step made stale (README, architecture docs and tech choices, open questions and the next milestone, ADRs). Fix what is stale in a separate `docs` commit. Each step is one commit-sized unit with its test (see [../ways-of-working/incremental-commits.md](../ways-of-working/incremental-commits.md)); a step may split into several commits.
 
 | # | Step | Status |
 |---|---|---|

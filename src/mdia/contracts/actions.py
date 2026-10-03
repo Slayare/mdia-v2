@@ -7,6 +7,7 @@ from pydantic import BaseModel, ConfigDict
 from mdia.domain.world import Gather
 
 
+# TODO: becomes a discriminated union keyed on `action` when a second action arrives (roadmap step 8).
 class AgentAction(BaseModel):
     """An action as the model proposes it. Structure only: whether it is possible is for world rules."""
 

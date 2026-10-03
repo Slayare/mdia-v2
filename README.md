@@ -20,3 +20,9 @@ Setup and tests:
 uv sync
 uv run pytest
 ```
+
+Tests that call the local model are skipped by default. To run them (Ollama must be running):
+
+```sh
+MDIA_OLLAMA_TESTS=1 uv run pytest tests/integration
+```

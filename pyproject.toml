@@ -5,6 +5,7 @@ description = "Memory-Driven Identity Agent: a closed-world simulation of persis
 readme = "README.md"
 requires-python = ">=3.12"
 dependencies = [
+    "httpx>=0.28.1",
     "pydantic>=2",
 ]
 
